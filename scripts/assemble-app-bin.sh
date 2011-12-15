@@ -23,6 +23,8 @@
                  
 appname=tor
 
+echo "This script requires sudo for loop mounting."
+
 if [ -z $1 ]; then
     # no argument, create fresh
 
@@ -41,10 +43,14 @@ if [ -z $1 ]; then
     cp -v bin/tor* $appdir/bin &&
     cp -v bin/privoxy* $appdir/bin &&
     cp -rav etc/tor $appdir/etc &&
+    cp -rav etc/privoxy $appdir/etc &&
     cp -v etc/geoip $appdir/etc &&
-    cp -v scripts/S69tor $appdir/etc/init.d &&
-    chmod a+x $appdir/etc/init.d/S69tor &&
-    cp -v README $appdir &&
+    cp -v scripts/S99tor $appdir/etc/init.d &&
+    cp -v scripts/torctl $appdir/bin &&
+    cp -v scripts/tor-ctrl.sh $appdir/bin &&
+    cp -v scripts/torify $appdir/bin &&
+    chmod a+x $appdir/etc/init.d/S99tor &&
+    cp -v README $appdir
     
     sudo chown -R root:root $appdir
     

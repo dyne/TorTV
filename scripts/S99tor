@@ -1,0 +1,79 @@
+#!/bin/sh
+#
+# Copyright (C) 2011 Denis Roio <jaromil@dyne.org>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or 
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+APPROOT=/apps/tor
+
+sleep 15 # wait the boot to complete
+
+touch /tmp/tor.log
+chmod -x /tmp/tor.log
+
+log() { echo "[`date +%T`] $@" >> /tmp/tor.log; }
+
+USBROOT=`cat /tmp/appsRoot | grep tor | sed 's/tor//`
+log "Tor app running on USB $USBROOT"
+log "args: $@"
+
+export USBROOT
+export APPROOT
+
+log "Checking Internet connection ..."
+ping -q -c1 time.ien.it > /dev/null
+if [ $? != 0 ]; then
+    log "No Internet connection found, aborting Tor startup."
+    log "When connected one can re-launch this app.bin without a reboot:"
+    log "/apps/tor/etc/init.d/S69tor"
+    exit 0
+fi
+
+log "Updating clock using time.ien.it (NTP)"
+# fix the clock to actual time, else Tor will complain
+rdate time.ien.it >> /tmp/tor.log
+
+mkdir -p ${USBROOT}tor
+
+# generate the tor config
+if ! [ -r ${USBROOT}tor/tor.conf ]; then
+    cp /apps/tor/etc/tor/torrc.sample ${USBROOT}tor/tor.conf
+    log "Tor configuration created in ${USBROOT}tor/tor.conf"
+else
+    log "Tor configiration file found in ${USBROOT}tor/tor.conf"
+fi
+
+# generate the privoxy config
+if ! [ -r ${USBROOT}tor/privoxy.conf ]; then
+    cp /apps/tor/etc/privoxy/config ${USBROOT}tor/privoxy.conf
+    log "Privoxy configuration created in ${USBROOT}tor/privoxy.conf"
+else
+    log "Privoxy configiration file found in ${USBROOT}tor/privoxy.conf"
+fi
+    
+log "Preparing to launch Tor daemon"
+cp ${USBROOT}/tor/tor.conf /tmp
+echo "Log notice file /tmp/tor-daemon.log" >> /tmp/tor.conf
+echo "DataDirectory ${USBROOT}tor/" >> /tmp/tor.conf
+echo "RunAsDaemon 1" >> /tmp/tor.conf
+
+log "Data directory set to ${USBROOT}tor/"
+
+# launch Tor
+log "Launching Tor in background"
+tor -f /tmp/tor.conf
+log "Launching Privoxy in background"
+privoxy ${USBROOT}tor/privoxy.conf
+log "Done."
