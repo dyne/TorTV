@@ -1,1 +1,49 @@
-Tor for WDLXTV
+'########::'#######::'########::'########:'##::::'##:
+... ##..::'##.... ##: ##.... ##:... ##..:: ##:::: ##:
+::: ##:::: ##:::: ##: ##:::: ##:::: ##:::: ##:::: ##:
+::: ##:::: ##:::: ##: ########::::: ##:::: ##:::: ##:
+::: ##:::: ##:::: ##: ##.. ##:::::: ##::::. ##:: ##::
+::: ##:::: ##:::: ##: ##::. ##::::: ##:::::. ## ##:::
+::: ##::::. #######:: ##:::. ##:::: ##::::::. ###::::
+:::..::::::.......:::..:::::..:::::..::::::::...:::::
+                                          version 0.1
+
+TorTV is a build of Tor maintained to run on TV devices and set-top
+boxes, so that anyone with such an household appliance can contribute
+to strengthen the Tor network.
+
+Easy to deploy user downloads are provided, as well some developer
+documentation and mostly the code used: TorTV does not reimplements
+nor modifies the Tor source code in any way, it just provides binaries
+for embedded targets and some scripting to facilitate ease of
+installation.
+
+TorTV just started to be developed and is in ALPHA stage: it consists
+of an ad-hoc build (app.bin) and installation instructions for the
+popular WD TV device series running the WDLXTV firmware (MIPS
+based). If this project receives enough support and attention it will
+eventually grow to maintain Tor builds for more MIPS and ARM based
+devices.
+
+Links:
+
+ Tor Project: https://www.torproject.org
+
+ WDLXTV homebre firmware: http://www.wdlxtv.com
+
+ Download TorTV packages: http://ftp.dyne.org/tortv
+
+Disclaimer:
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or 
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
