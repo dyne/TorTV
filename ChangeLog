@@ -1,4 +1,9 @@
-0.1 - December 2011
+0.2 - 30 December 2011
+	Updated to Tor 0.2.2.35
+	Initial support for WDLXTV webend
+	Daemon-only start stop facility
+
+0.1 - 15 December 2011
 	Initial release
 	Working implementation
 	Minimal documentation
