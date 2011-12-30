@@ -4,7 +4,7 @@
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or 
+# the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -62,7 +62,7 @@ if ! [ -r ${USBROOT}tor/privoxy.conf ]; then
 else
     log "Privoxy configiration file found in ${USBROOT}tor/privoxy.conf"
 fi
-    
+
 log "Preparing to launch Tor daemon"
 cp ${USBROOT}/tor/tor.conf /tmp
 echo "Log notice file /tmp/tor-daemon.log" >> /tmp/tor.conf
@@ -77,3 +77,7 @@ tor -f /tmp/tor.conf
 log "Launching Privoxy in background"
 privoxy ${USBROOT}tor/privoxy.conf
 log "Done."
+
+echo "running" > /tmp/tor.state
+
+add.webplugin tor $APPROOT/webend

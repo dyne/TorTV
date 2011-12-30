@@ -1,0 +1,56 @@
+#!/bin/sh
+
+log() { echo "[`date +%T`] $@" >> /tmp/tor.log; }
+
+if [ "$1" == "start" ]; then
+
+    log "Daemon start called"
+
+    state=`cat /tmp/tor.state`
+    if [ "$state" == "running" ]; then
+
+	log "Tor already running, command ignored."
+	echo "Tor is already running, command ignored."
+
+    else
+	
+	log "Launching Tor in background"
+	tor -f /tmp/tor.conf
+	
+	log "Launching Privoxy in background"
+	privoxy ${USBROOT}tor/privoxy.conf
+	
+	log "Daemon start completed."
+	rm -f /tmp/tor.state
+	echo "running" > /tmp/tor.state
+    fi
+
+elif [ "$1" == "stop" ]; then
+
+    log "Daemon stop called"
+
+    state=`cat /tmp/tor.state`
+    if [ "$state" == "stopped" ]; then
+	
+	log "Tor already stopped, command ignored."
+	echo "Tor is already stopped, command ignored."
+
+    else
+	
+	log "Killing Tor"
+	killall tor
+	
+	log "Killing Privoxy"
+	killall privoxy
+	
+	log "Daemon stop completed."
+	rm -f /tmp/tor.state
+	echo "stopped" > /tmp/tor.state
+    fi
+    
+else
+    echo "usage: daemon [ start | stop ]"
+    echo "Starts or stops tor+prixovy (TorTV app)"
+    log "Daemon command unknown: $1"
+    log "Daemon state: `cat /tmp/tor.state`"
+fi

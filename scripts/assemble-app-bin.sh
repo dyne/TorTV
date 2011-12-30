@@ -46,10 +46,13 @@ if [ -z $1 ]; then
     cp -rav etc/privoxy $appdir/etc &&
     cp -v etc/geoip $appdir/etc &&
     cp -v scripts/S99tor $appdir/etc/init.d &&
+    cp -v scripts/daemon $appdir/etc/init.d &&
     cp -v scripts/torctl $appdir/bin &&
     cp -v scripts/tor-ctrl.sh $appdir/bin &&
     cp -v scripts/torify $appdir/bin &&
     chmod a+x $appdir/etc/init.d/S99tor &&
+    chmod a+x $appdir/etc/init.d/daemon &&
+    cp -rav webend $appdir &&
     cp -v README $appdir
     
     sudo chown -R root:root $appdir
